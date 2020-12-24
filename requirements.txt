@@ -1,0 +1,9 @@
+fastapi[all]
+pydantic==1.5.1
+PyJWT==1.7.1
+SQLAlchemy==1.3.17
+passlib[bcrypt]
+requests
+pymysql
+alembic
+cryptography
