@@ -1,5 +1,5 @@
 # fastapi-vue-admin
-使用fastapi和vue-element-admin后台管理平台
+使用fastapi和vue-element-admin构建的管理后台
 
 目前配置直接写在配置文件中,生产环境推荐使用Nacos作为配置中心
 
@@ -48,6 +48,7 @@ npm run dev
 ```
 
 #### 登陆页面
+初始账户密码:admin/123456
 ![login](asserts/login.png)
 
 #### 主页
