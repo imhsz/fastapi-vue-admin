@@ -19,7 +19,7 @@ def me(authorization: Optional[str] = Header(None), db: Session = Depends(get_db
     username: str = payload.get("sub")
     user = db.query(User).filter(User.username == username).first()
     user_dict = {"username": user.username, "email": user.email, "is_active": user.is_active,
-                 "nick_name": user.nick_name, "menus": ["system-manage", "user-manage"]}
+                 "nick_name": user.nick_name, "menus": ["system-manage", "user-manage", "record-manage"]}
     return UserBase(**user_dict)
 
 
@@ -63,13 +63,12 @@ def create_user(user: NewUser, request: Request, operator: Optional[str] = Heade
     return {"message": "用户创建成功"}
 
 
-@user_router.post("/update_user/{username}", name="更新用户信息")
-def update_user(username, request: Request, modify_user: ModifyUser, operator: Optional[str] = Header(None),
-                db: Session = Depends(get_db)):
+@user_router.post("/update_user", name="更新用户信息")
+def update_user(request: Request, modify_user: ModifyUser, operator: Optional[str] = Header(None), db: Session = Depends(get_db)):
     """
     用户名不可以修改
     """
-    user = db.query(User).filter(User.username == username).first()
+    user = db.query(User).filter(User.username == modify_user.username).first()
     if user:
         old_user = deepcopy(user)
         if modify_user.password:

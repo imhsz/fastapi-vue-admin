@@ -63,6 +63,7 @@ class ModifyUser(BaseModel):
     """
     修改用户schema
     """
+    username: Optional[str] = None
     password: Optional[str] = None
     email: EmailStr
     is_active: Optional[bool] = True

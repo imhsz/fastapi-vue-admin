@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">Hi, {{ name }}</div>
+    <div><h3>{{ tipMessage }}</h3></div>
   </div>
 </template>
 
@@ -8,7 +9,11 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Dashboard',
+  data() {
+    return {
+      tipMessage: '早上好,来杯☕️吧～'
+    }
+  },
   computed: {
     ...mapGetters([
       'name'

@@ -27,9 +27,10 @@ export function logout() {
 
 export function edit(data) {
   return request({
-    url: '/users/update_user/' + data.username,
+    url: '/users/update_user',
     method: 'post',
     data: {
+      username: data.username,
       password: data.password,
       email: data.email,
       is_active: data.is_active,

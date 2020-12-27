@@ -20,7 +20,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from models.base import Base
 target_metadata = Base.metadata
-注释掉第26行 target_metadata = None
+注释掉 target_metadata = None
 
 生成执行文件
 alembic revision --autogenerate -m "first commit"

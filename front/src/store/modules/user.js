@@ -75,6 +75,17 @@ const actions = {
       })
     })
   },
+  editSelf({ commit, state }, editInfo) {
+    const { nick_name } = editInfo
+    return new Promise((resolve, reject) => {
+      edit(editInfo).then(response => {
+        commit('SET_NAME', nick_name)
+        resolve(response.data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
   // user logout
   logout({ commit, state }) {

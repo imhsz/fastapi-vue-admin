@@ -37,7 +37,6 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -74,23 +73,19 @@ export const asyncRoutes = [
     children: [
       {
         path: 'users',
-        component: () => import('@/views/manage/userList'),
+        component: () => import('@/views/user/userList'),
         meta: { title: '用户管理', icon: 'el-icon-user-solid', menu: 'user-manage' }
+      },
+      {
+        path: '/user/modify_self',
+        component: () => import('@/views/user/editSelf'),
+        meta: { title: '修改用户信息' },
+        hidden: true
       },
       {
         path: 'records',
         component: () => import('@/views/manage/recordList'),
         meta: { title: '操作记录', icon: 'el-icon-postcard', menu: 'record-manage' }
-      },
-      {
-        path: 'menus',
-        component: () => import('@/views/manage/menuManage'),
-        meta: { title: '菜单操作', icon: 'el-icon-postcard', menu: 'menus-manage' }
-      },
-      {
-        path: 'corgs',
-        component: () => import('@/views/corg/index'),
-        meta: { title: '组织列表', icon: 'form', menu: 'corg-manage' }
       }]
   },
   // 404 page must be placed at the end !!!

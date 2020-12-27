@@ -44,7 +44,7 @@
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
       <div class="tips">
-        <span>2020 © ASTRO Copyright,All Rights Reserved.</span>
+        <span>{{ year }} © ASTRO Copyright,All Rights Reserved.</span>
       </div>
 
     </el-form>
@@ -73,7 +73,8 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      year: (new Date()).getFullYear()
     }
   },
   watch: {

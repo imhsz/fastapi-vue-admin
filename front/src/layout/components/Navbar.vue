@@ -16,6 +16,11 @@
               主页
             </el-dropdown-item>
           </router-link>
+          <router-link to="/user/modify_self">
+            <el-dropdown-item>
+              修改信息
+            </el-dropdown-item>
+          </router-link>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">登出</span>
           </el-dropdown-item>

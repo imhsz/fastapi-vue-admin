@@ -2,6 +2,18 @@
 使用snowflake生成唯一id
 """
 import time
+import os
+import psutil
+
+
+# 显示当前 python 程序占用的内存大小
+def show_memory_info(hint):
+    pid = os.getpid()
+    p = psutil.Process(pid)
+    info = p.memory_full_info()
+    memory = info.uss / 1024. / 1024
+    print('{} memory used: {} MB'.format(hint, memory))
+
 
 # 64位ID的划分
 WORKER_ID_BITS = 5
@@ -96,6 +108,7 @@ if __name__ == '__main__':
     # 测试生成10w个id是否会有相同id
     id_set = []
     duplicate_id = {}
+    show_memory_info("start")
     for i in range(0, 100000):
         print(i)
         new_id = worker.get_id()
@@ -106,5 +119,6 @@ if __name__ == '__main__':
                 duplicate_id[new_id] += 1
             continue
         id_set.append(new_id)
+    show_memory_info("end")
     print(duplicate_id)
     print(len(id_set))
