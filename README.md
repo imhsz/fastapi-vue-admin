@@ -6,6 +6,14 @@
 ## 项目初始化
 ```shell script
 pip install -r requirements.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
+windows下可能需要安装如下软件：
+Micorosoft visio c++
+https://go.microsoft.com/fwlink/?LinkId=691126
+安装cryptography openssl报错:
+下载安装https://slproweb.com/products/Win32OpenSSL.html
+将安装后目录的include下的openssl目录复制到python的include目录下
+将安装后目录中lib下的libcrypto.lib和libssl.lib复制到python的libs目录下
+将
 在安装mysqlclient时会出现报错，解决方法如下:
 https://blog.csdn.net/alvechen/article/details/95040255
 ```
