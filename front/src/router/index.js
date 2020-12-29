@@ -83,8 +83,14 @@ export const asyncRoutes = [
         hidden: true
       },
       {
+        path: '/user/add',
+        component: () => import('@/views/user/userAdd'),
+        meta: { title: '新增用户', menu: 'user-add' },
+        hidden: true
+      },
+      {
         path: 'records',
-        component: () => import('@/views/manage/recordList'),
+        component: () => import('@/views/record/recordList'),
         meta: { title: '操作记录', icon: 'el-icon-postcard', menu: 'record-manage' }
       }]
   },

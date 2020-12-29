@@ -19,7 +19,7 @@ def me(authorization: Optional[str] = Header(None), db: Session = Depends(get_db
     username: str = payload.get("sub")
     user = db.query(User).filter(User.username == username).first()
     user_dict = {"username": user.username, "email": user.email, "is_active": user.is_active,
-                 "nick_name": user.nick_name, "menus": ["system-manage", "user-manage", "record-manage"]}
+                 "nick_name": user.nick_name, "menus": ["system-manage", "user-manage", "record-manage", "user-add"]}
     return UserBase(**user_dict)
 
 
@@ -35,11 +35,16 @@ def get_user_info(username: str, db: Session = Depends(get_db)):
 
 
 @user_router.get("/all_users", response_model=AllUser, name="获取所有用户")
-def all_users(page_no: int, page_size: int, db: Session = Depends(get_db)):
+def all_users(page_no: int, page_size: int, search_username: str = '', db: Session = Depends(get_db)):
     # 分页查询,前端需要传递页数,和每页多少个
     # 数据分页与list切片格式保持一致
-    total = db.query(User).count()
-    users = db.query(User).slice(page_size * (page_no - 1), page_size * page_no)
+    if search_username:
+        total = db.query(User).filter(User.username == search_username).count()
+        users = db.query(User).filter(User.username == search_username).slice(page_size * (page_no - 1),
+                                                                              page_size * page_no)
+    else:
+        total = db.query(User).count()
+        users = db.query(User).slice(page_size * (page_no - 1), page_size * page_no)
     all_users_dict = {"total": total, "users": [UserBase(
         **{"username": user.username, "email": user.email, "is_active": user.is_active, "nick_name": user.nick_name})
         for user in users]}
@@ -49,7 +54,8 @@ def all_users(page_no: int, page_size: int, db: Session = Depends(get_db)):
 @user_router.put("/create_user", responses={406: {"description": "创建的用户已经存在"}}, name="创建新用户")
 def create_user(user: NewUser, request: Request, operator: Optional[str] = Header(None), db: Session = Depends(get_db)):
     old_user = db.query(User).filter(User.username == user.username).first()
-    if old_user:
+    old_email = db.query(User).filter(User.email == user.email).first()
+    if old_user or old_email:
         raise HTTPException(status_code=406, detail="创建的用户已经存在")
     user_dict = {"username": user.username, "email": user.email, "nick_name": user.nick_name,
                  "is_active": user.is_active}
@@ -64,7 +70,8 @@ def create_user(user: NewUser, request: Request, operator: Optional[str] = Heade
 
 
 @user_router.post("/update_user", name="更新用户信息")
-def update_user(request: Request, modify_user: ModifyUser, operator: Optional[str] = Header(None), db: Session = Depends(get_db)):
+def update_user(request: Request, modify_user: ModifyUser, operator: Optional[str] = Header(None),
+                db: Session = Depends(get_db)):
     """
     用户名不可以修改
     """
@@ -82,6 +89,6 @@ def update_user(request: Request, modify_user: ModifyUser, operator: Optional[st
         # 调用数据修改记录器
         Record.create_operate_record(old_object=old_user, new_object=new_user, username=operator,
                                      ip=request.client.host)
-        return {"code": 2000, "message": "用户信息更新成功"}
+        return {"message": "用户信息更新成功"}
     else:
-        return {"code": 2001, "message": "用户不存在"}
+        raise HTTPException(status_code=406, detail="用户不存在")

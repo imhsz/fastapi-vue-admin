@@ -38,11 +38,12 @@ export function edit(data) {
     }
   })
 }
-export function getUsers(pageNo, pageSize) {
+export function getUsers(pageNo, pageSize, searchUsername) {
   return request({
     url: '/users/all_users',
     method: 'get',
     params: { page_no: pageNo,
-      page_size: pageSize }
+      page_size: pageSize,
+      search_username: searchUsername }
   })
 }

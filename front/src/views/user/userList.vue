@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+    <div class="search">
+      <el-button type="primary" style="margin-left: 2%" @click="addUser">新增用户</el-button>
+      <el-input v-model="search" style="width: 20%;float: right;margin-right: 5%" placeholder="请输入搜索用户名" prefix-icon="el-icon-search" @change="searchUser" />
+    </div>
     <el-table
       v-loading="listLoading"
       element-loading-text="拼命加载中"
@@ -52,7 +56,7 @@
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="user.email" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" prop="password" >
+        <el-form-item label="密码" prop="password">
           <el-input v-model="user.password" show-password placeholder="不修改密码无需填写" />
         </el-form-item>
         <el-form-item label="昵称" prop="nick_name">
@@ -98,6 +102,7 @@ export default {
       listLoading: true,
       dialogFormVisible: false,
       hidePage: false,
+      search: '',
       user: {
         username: '',
         password: '',
@@ -126,13 +131,13 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    this.fetchData(this.search)
   },
   methods: {
-    fetchData() {
+    fetchData(searchUsername) {
       this.listLoading = true
       const { pagination } = this
-      getUsers(pagination.currentPage, pagination.pageSize).then(response => {
+      getUsers(pagination.currentPage, pagination.pageSize, searchUsername).then(response => {
         this.users = response.users
         this.listLoading = false
         pagination.total = response.total
@@ -174,6 +179,12 @@ export default {
     indexMethod(index) {
       // 索引改变
       return index + (this.pagination.currentPage - 1) * this.pagination.pageSize + 1
+    },
+    searchUser() {
+      this.fetchData(this.search)
+    },
+    addUser() {
+      this.$router.push({ path: '/user/add' })
     }
   }
 }

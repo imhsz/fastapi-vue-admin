@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="search">
-      <el-input style="width: 20%;float: right;margin-right: 5%" v-model="search" placeholder="请输入搜索内容" prefix-icon="el-icon-search" @change="searchDetail" />
+      <el-input v-model="search" style="width: 20%;float: right;margin-right: 5%" placeholder="请输入搜索内容" prefix-icon="el-icon-search" @change="searchDetail" />
     </div>
     <el-table
       v-loading="listLoading"
