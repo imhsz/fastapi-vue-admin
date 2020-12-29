@@ -13,7 +13,6 @@ https://go.microsoft.com/fwlink/?LinkId=691126
 下载安装https://slproweb.com/products/Win32OpenSSL.html
 将安装后目录的include下的openssl目录复制到python的include目录下
 将安装后目录中lib下的libcrypto.lib和libssl.lib复制到python的libs目录下
-将
 在安装mysqlclient时会出现报错，解决方法如下:
 https://blog.csdn.net/alvechen/article/details/95040255
 ```
